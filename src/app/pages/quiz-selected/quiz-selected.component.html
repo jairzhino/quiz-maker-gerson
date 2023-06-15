@@ -1,0 +1,14 @@
+<div class="root-quiz-selected">
+  <h1 class="title">Questions</h1>
+  <div class="actions">
+    <button class="button is-primary" [disabled]="isDisableButton">Save Quiz</button>
+  </div>
+  <div *ngIf="quizBlock$|async as quizBlock" class="questions">
+    <app-question [questionBlock]="quizBlock.quizBlock!.question1" [questionNumber]="1"></app-question>
+    <app-question [questionBlock]="quizBlock.quizBlock!.question2" [questionNumber]="2"></app-question>
+    <app-question [questionBlock]="quizBlock.quizBlock!.question3" [questionNumber]="3"></app-question>
+    <app-question [questionBlock]="quizBlock.quizBlock!.question4" [questionNumber]="4"></app-question>
+    <app-question [questionBlock]="quizBlock.quizBlock!.question5" [questionNumber]="5"></app-question>
+  </div>
+
+</div>

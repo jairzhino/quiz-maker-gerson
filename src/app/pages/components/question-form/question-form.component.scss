@@ -1,0 +1,17 @@
+.root-question-form{
+  .is-flex{
+    gap: 0.5rem;
+  }
+  .block-question{
+    flex: 1;
+    .select{
+      width: 100%;
+      .control-select{
+        width: 100%;
+      }
+    }
+  }
+  .question-field{
+    width: 100%;
+  }
+}

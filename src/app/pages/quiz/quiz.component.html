@@ -1,0 +1,26 @@
+<div class="box root-quiz">
+  <h1 class="title">Quizzes</h1>
+  <button class="button is-info" [routerLink]="['/quiz',0]">Add Quiz</button>
+  <div class="content-table">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>count</th>
+          <th class="has-text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let quiz of quizzes$|async">
+          <td>{{ quiz.id }}</td>
+          <td>{{ quiz.questions.length}}</td>
+          <td class="has-text-right">
+            <button class="button is-primary mr-1">Edit</button>
+            <button class="button is-danger">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

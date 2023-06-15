@@ -1,0 +1,19 @@
+<div class="modal is-active">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Insert Answer</p>
+      <button class="delete" aria-label="close" (click)="CloseModal()"></button>
+    </header>
+    <form [formGroup]="formAnswer">
+      <section class="modal-card-body">
+        <input class="input" type="text" placeholder="Answer" formControlName="text">
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success" [disabled]="formAnswer.invalid" (click)="SaveAnswer()">Add Answer</button>
+        <button class="button" (click)="CloseModal()">Cancel</button>
+      </footer>
+    </form>
+
+  </div>
+</div>
