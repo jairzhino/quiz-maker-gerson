@@ -1,1 +1,16 @@
-<p>question-view works!</p>
+<div *ngIf="!questionBlock.isDirty" class="root-question-view">
+  <div>
+    <span>{{questionBlock.question.question}}</span>
+  </div>
+  <div class="is-flex">
+    <small class="mr-3">
+      <span>Type: <span class="text-question">{{typeQuiz[questionBlock.question.type]}}</span></span>
+    </small>
+    <small class="mr-3">
+      <span>Category: <span class="text-question">{{category[questionBlock.question.category]}}</span></span>
+    </small>
+    <small class="mr-3">
+      <span>Difficulty: <span class="text-question">{{difficulty[questionBlock.question.difficulty]}}</span></span>
+    </small>
+  </div>
+</div>

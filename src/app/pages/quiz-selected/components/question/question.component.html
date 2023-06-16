@@ -3,7 +3,7 @@
     [class.has-text-white]="questionBlock.isDirty">
     <div>
       <div *ngIf="!isOpen">
-        <app-question-view></app-question-view>
+        <app-question-view [questionBlock]="questionBlock"></app-question-view>
       </div>
     </div>
     <button class="button is-info" (click)="OpenClose()">{{isOpen?'Close':'Open'}}</button>
