@@ -81,23 +81,23 @@ export const SelectQuiz = (id: number) =>
     const quizBlock: QuizBlock = {
       id: quiz.id,
       question1: {
-        isDirty: true,
+        isDirty: false,
         question: quiz.questions[0],
       },
       question2: {
-        isDirty: true,
+        isDirty: false,
         question: quiz.questions[1],
       },
       question3: {
-        isDirty: true,
+        isDirty: false,
         question: quiz.questions[2],
       },
       question4: {
-        isDirty: true,
+        isDirty: false,
         question: quiz.questions[3],
       },
       question5: {
-        isDirty: true,
+        isDirty: false,
         question: quiz.questions[4],
       },
     };

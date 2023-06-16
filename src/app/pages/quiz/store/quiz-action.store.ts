@@ -16,3 +16,8 @@ export const CreateQuiz = createAction(
   '[Create-Quiz]',
   props<{ quiz: Quiz }>()
 );
+
+export const RemoveQuiz = createAction(
+  '[Remove-Quiz]',
+  props<{ id: number }>()
+);

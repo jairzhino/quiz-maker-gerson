@@ -1,8 +1,11 @@
 <div class="box root-quiz">
-  <h1 class="title">Quizzes</h1>
-  <button class="button is-info" [routerLink]="['/quiz',0]">Add Quiz</button>
+  <div class="half-width">
+    <h1 class="title">Quizzes</h1>
+    <button class="button is-info" [routerLink]="['/quiz',0]">Add Quiz</button>
+  </div>
+
   <div class="content-table">
-    <table class="table">
+    <table class="table half-width">
       <thead>
         <tr>
           <th>id</th>
@@ -15,8 +18,8 @@
           <td>{{ quiz.id }}</td>
           <td>{{ quiz.questions.length}}</td>
           <td class="has-text-right">
-            <button class="button is-primary mr-1">Edit</button>
-            <button class="button is-danger">Delete</button>
+            <button class="button is-primary mr-1" [routerLink]="['/quiz',quiz.id]">Edit</button>
+            <button class="button is-danger" (click)="RemoveQuiz(quiz.id)">Delete</button>
           </td>
         </tr>
       </tbody>

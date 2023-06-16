@@ -29,4 +29,8 @@ export class QuizComponent {
     };
     this.quizService.createQuiz(quiz);
   }
+
+  RemoveQuiz(id: number): void {
+    this.quizService.removeQuiz(id);
+  }
 }

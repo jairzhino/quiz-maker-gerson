@@ -1,7 +1,8 @@
 <div class="root-quiz-selected">
   <h1 class="title">Questions</h1>
   <div class="actions">
-    <button class="button is-primary" [disabled]="isDisableButton">Save Quiz</button>
+    <button class="button" (click)="GoBack()">Back</button>
+    <button class="button is-primary" [disabled]="quizBlockIncomplete$|async" (click)="SaveQuiz()">Save Quiz</button>
   </div>
   <div *ngIf="quizBlock$|async as quizBlock" class="questions">
     <app-question [questionBlock]="quizBlock.quizBlock!.question1" [questionNumber]="1"></app-question>

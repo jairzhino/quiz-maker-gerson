@@ -17,4 +17,8 @@ export class QuizService {
   updateQuiz(quiz: Quiz, id: number) {
     this.store.dispatch(Actions.SetQuiz({ quiz, id }));
   }
+
+  removeQuiz(id: number) {
+    this.store.dispatch(Actions.RemoveQuiz({ id }));
+  }
 }

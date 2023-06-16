@@ -34,5 +34,9 @@ export const QuizReducer = createReducer(
       value.id === id ? quiz : value
     );
     return { ...state, quizzes };
+  }),
+  on(Actions.RemoveQuiz, (state, { id }) => {
+    const quizzes = state.quizzes.filter(quiz => quiz.id !== id);
+    return { ...state, quizzes };
   })
 );
