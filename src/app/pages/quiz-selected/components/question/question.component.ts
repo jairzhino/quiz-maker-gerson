@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { QuestionBlock } from '@pages/quiz-selected/models/quiz-block.model';
-import { QuestionFormComponent } from '@pages/components/question-form/question-form.component';
-import { QuestionViewComponent } from '@pages/components/question-view/question-view.component';
+import { QuestionFormComponent } from '@pages/quiz-selected/components/question-form/question-form.component';
+import { QuestionViewComponent } from '@pages/quiz-selected/components/question-view/question-view.component';
 import { Question } from '@pages/quiz/models/question.model';
 import { QuizBlockService } from '@pages/quiz-selected/services/quiz-block.service';
 
