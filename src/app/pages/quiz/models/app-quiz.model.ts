@@ -5,4 +5,5 @@ export interface AppQuiz {
   quizzes: Quiz[];
   idCounter: number;
   categories: TriviaCategory[];
+  loading: boolean;
 }

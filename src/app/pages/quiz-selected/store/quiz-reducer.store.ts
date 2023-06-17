@@ -5,6 +5,7 @@ import { QuizBlock } from '../models/quiz-block.model';
 
 export const INITIAL_STATE: QuizState = {
   quizBlock: undefined,
+  loading: false,
 };
 
 export const QuizBlockReducer = createReducer(
@@ -13,7 +14,7 @@ export const QuizBlockReducer = createReducer(
     ...state,
     quizBlock: quiz,
   })),
-  on(Actions.SetQuestion, (state, { question, index }) => {
+  on(Actions.SetQuestion, (state, { question, index, answer }) => {
     if (!state.quizBlock) {
       return state;
     }
@@ -21,7 +22,8 @@ export const QuizBlockReducer = createReducer(
       const value1: QuizBlock = {
         ...state.quizBlock,
         question1: {
-          isDirty: false,
+          isDirty: !answer,
+          answer,
           question,
         },
       };
@@ -31,7 +33,8 @@ export const QuizBlockReducer = createReducer(
       const value2: QuizBlock = {
         ...state.quizBlock,
         question2: {
-          isDirty: false,
+          isDirty: !answer,
+          answer,
           question,
         },
       };
@@ -41,7 +44,8 @@ export const QuizBlockReducer = createReducer(
       const value3: QuizBlock = {
         ...state.quizBlock,
         question3: {
-          isDirty: false,
+          isDirty: !answer,
+          answer,
           question,
         },
       };
@@ -51,7 +55,8 @@ export const QuizBlockReducer = createReducer(
       const value4: QuizBlock = {
         ...state.quizBlock,
         question4: {
-          isDirty: false,
+          isDirty: !answer,
+          answer,
           question,
         },
       };
@@ -61,12 +66,22 @@ export const QuizBlockReducer = createReducer(
       const value5: QuizBlock = {
         ...state.quizBlock,
         question5: {
-          isDirty: false,
+          isDirty: !answer,
+          answer,
           question,
         },
       };
       return { ...state, quizBlock: value5 };
     }
     return state;
-  })
+  }),
+  on(Actions.Submitted, state => {
+    if (!state.quizBlock) {
+      return state;
+    }
+    const quizBlock: QuizBlock = { ...state.quizBlock, submitted: true };
+    return { ...state, quizBlock };
+  }),
+  on(Actions.LoadingOn, state => ({ ...state, loading: true })),
+  on(Actions.LoadingOff, state => ({ ...state, loading: false }))
 );

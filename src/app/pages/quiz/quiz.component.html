@@ -18,12 +18,12 @@
           <td>{{ quiz.id }}</td>
           <td>{{ quiz.questions.length}}</td>
           <td class="has-text-right">
-            <button class="button is-primary mr-1" [routerLink]="['/quiz',quiz.id]">Edit</button>
+            <button class="button is-primary mr-1" [routerLink]="['/quiz',quiz.id]">Play</button>
             <button class="button is-danger" (click)="RemoveQuiz(quiz.id)">Delete</button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-
+  <app-loading *ngIf="loading$|async"></app-loading>
 </div>

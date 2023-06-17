@@ -6,6 +6,7 @@ export const INITIAL_STATE: AppQuiz = {
   quizzes: [],
   idCounter: 1,
   categories: [],
+  loading: false,
 };
 
 export const QuizReducer = createReducer(
@@ -44,5 +45,7 @@ export const QuizReducer = createReducer(
   on(Actions.AddCategories, (state, { categories }) => ({
     ...state,
     categories,
-  }))
+  })),
+  on(Actions.LoadingOn, state => ({ ...state, loading: true })),
+  on(Actions.LoadingOff, state => ({ ...state, loading: false }))
 );

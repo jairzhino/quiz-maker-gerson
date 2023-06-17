@@ -14,11 +14,18 @@ import { QuizService } from '@pages/quiz/services/quiz.service';
 import * as ActionsQuiz from '@pages/quiz/store/quiz-selector.store';
 import { AppState } from '@pages/quiz/models/AppState.model';
 import { Store } from '@ngrx/store';
+import { LoadingComponent } from 'src/app/components/loading/loading.component';
 
 @Component({
   selector: 'app-create-quiz',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    LoadingComponent,
+  ],
   templateUrl: './create-quiz.component.html',
   styleUrls: ['./create-quiz.component.scss'],
 })
@@ -31,6 +38,8 @@ export class CreateQuizComponent implements OnInit {
   });
 
   categories$ = this.store.select(ActionsQuiz.SelectCategories);
+
+  loading$ = this.store.select(ActionsQuiz.SelectLoading);
 
   difficulty = Difficulty;
   typeQuiz = TypeQuiz;

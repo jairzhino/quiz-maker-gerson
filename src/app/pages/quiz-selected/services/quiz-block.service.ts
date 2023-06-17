@@ -14,9 +14,17 @@ export class QuizBlockService {
   updateQuiz(quiz: QuizBlock | undefined) {
     this.store.dispatch(Actions.SetQuizBlock({ quiz }));
   }
-  updateQuestion(question: Question, questionNumber: number): void {
+  updateQuestion(
+    question: Question,
+    questionNumber: number,
+    answer: string
+  ): void {
     this.store.dispatch(
-      Actions.SetQuestion({ question, index: questionNumber })
+      Actions.SetQuestion({ question, index: questionNumber, answer })
     );
+  }
+
+  submitGame(): void {
+    this.store.dispatch(Actions.Submitted());
   }
 }

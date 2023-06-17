@@ -27,3 +27,6 @@ export const AddCategories = createAction(
   '[Add-Categories]',
   props<{ categories: TriviaCategory[] }>()
 );
+
+export const LoadingOn = createAction('[Quiz-Loading-On]');
+export const LoadingOff = createAction('[Quiz-Loading-Off]');

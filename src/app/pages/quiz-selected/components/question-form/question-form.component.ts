@@ -14,6 +14,7 @@ import { TypeQuiz } from '@pages/quiz/enums/type.enum';
 import { AppState } from '@pages/quiz/models/AppState.model';
 import { Store } from '@ngrx/store';
 import * as ActionsQuiz from '@pages/quiz/store/quiz-selector.store';
+import * as ActionQuizBlock from '@pages/quiz-selected/store/quiz-selector.store';
 
 @Component({
   selector: 'app-question-form',
@@ -24,9 +25,9 @@ import * as ActionsQuiz from '@pages/quiz/store/quiz-selector.store';
 })
 export class QuestionFormComponent implements OnInit {
   @Input() question!: Question;
+  @Input() answerQuestion!: string;
 
-  @Output() changeQuestion: EventEmitter<Question> =
-    new EventEmitter<Question>();
+  @Output() changeQuestion: EventEmitter<string> = new EventEmitter<string>();
 
   formQuestion: FormGroup = new FormGroup({
     category: new FormControl<Category>(Category['General Knowledge'], [
@@ -37,22 +38,17 @@ export class QuestionFormComponent implements OnInit {
       Validators.required,
     ]),
     question: new FormControl<string>('', [Validators.required]),
-    correct_answer: new FormControl<string[]>(
-      [],
-      [Validators.required, Validators.minLength(1)]
-    ),
-    incorrect_answers: new FormControl<string[]>(
-      [],
-      [Validators.required, Validators.minLength(1)]
-    ),
+    answerSelected: new FormControl<string>('', [Validators.required]),
   });
 
   categories$ = this.store.select(ActionsQuiz.SelectCategories);
+  quizNotSubmitted$ = this.store.select(ActionQuizBlock.QuizBlockNotSubmitted);
+  quizSubmitted$ = this.store.select(ActionQuizBlock.QuizBlockSubmitted);
+  answers: string[] = [];
 
   categories: string[] = [];
   difficultList: string[] = [];
   types: string[] = [];
-  typeQuiz = TypeQuiz;
 
   constructor(private readonly store: Store<AppState>) {}
 
@@ -63,8 +59,12 @@ export class QuestionFormComponent implements OnInit {
     this.categories = categoriesNames.slice(categoriesNames.length / 2);
     this.difficultList = difficultNames.slice(difficultNames.length / 2);
     this.types = typesNames.slice(typesNames.length / 2);
+
+    this.answers = [...this.question.incorrect_answers];
+    const index = Math.floor(Math.random() * (this.answers.length + 1));
+    this.answers.splice(index, 0, this.question.correct_answer);
+
     this.LoadPage();
-    console.log(this.question);
   }
 
   LoadPage(): void {
@@ -73,34 +73,19 @@ export class QuestionFormComponent implements OnInit {
     this.formQuestion.controls['difficulty'].setValue(this.question.difficulty);
     this.formQuestion.controls['question'].setValue(this.question.question);
 
-    this.formQuestion.controls['incorrect_answers'].setValue(
-      this.question.incorrect_answers
-    );
-    this.formQuestion.controls['correct_answer'].setValue([
-      this.question.correct_answer,
-    ]);
+    this.formQuestion.controls['answerSelected'].setValue(this.answerQuestion);
 
     this.formQuestion.controls['category'].disable();
     this.formQuestion.controls['type'].disable();
     this.formQuestion.controls['difficulty'].disable();
     this.formQuestion.controls['question'].disable();
+  }
 
-    this.formQuestion.controls['incorrect_answers'].disable();
-    this.formQuestion.controls['correct_answer'].disable();
+  SelectAnswer(answer: string): void {
+    this.formQuestion.controls['answerSelected'].setValue(answer);
   }
 
   Save(): void {
-    const categoryParsed = parseInt(this.formQuestion.value.category + '');
-    const difficultyParsed = this.formQuestion.value.difficulty + '';
-    const typeParsed = this.formQuestion.value.type + '';
-    const payload: Question = {
-      category: categoryParsed,
-      difficulty: difficultyParsed,
-      type: typeParsed,
-      question: this.formQuestion.value.question,
-      incorrect_answers: this.formQuestion.value.incorrect_answers,
-      correct_answer: this.formQuestion.value.correct_answer.join(' '),
-    };
-    this.changeQuestion.emit(payload);
+    this.changeQuestion.emit(this.formQuestion.value.answerSelected);
   }
 }

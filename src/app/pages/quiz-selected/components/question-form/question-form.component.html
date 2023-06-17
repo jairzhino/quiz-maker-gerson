@@ -38,40 +38,21 @@
       <label for="question">Question: </label>
       <div [innerHTML]="question.question"></div>
     </div>
-
-    <div class="mt-1" *ngIf="formQuestion.value.type+''==='multiple'">
-      <span>Correct Answers</span>
-      <div class="is-flex is-flex-wrap-wrap">
-        <ng-container *ngFor="let answer of formQuestion.value.correct_answer">
-          <span class="tag is-success" [innerHTML]="answer"></span>
-        </ng-container>
-
-      </div>
+    <div class="mt-1 is-flex is-justify-content-space-around">
+      <ng-container *ngFor="let answer of answers">
+        <button *ngIf="quizNotSubmitted$|async" class="button"
+          [class.is-info]="formQuestion.value.answerSelected===answer" [innerHTML]="answer"
+          (click)="SelectAnswer(answer)"></button>
+        <button *ngIf="quizSubmitted$|async" class="button"
+          [class.is-success]="question.correct_answer===answer || answer===formQuestion.value.answerSelected"
+          [class.is-danger]="answer===formQuestion.value.answerSelected && question.correct_answer!==answer"
+          [innerHTML]="answer" [disabled]="true"></button>
+      </ng-container>
     </div>
-
-    <div class="mt-1" *ngIf="formQuestion.value.type+''==='multiple'">
-      <span>Incorrect Answers</span>
-      <div class="is-flex is-flex-wrap-wrap">
-        <ng-container *ngFor="let answer of formQuestion.value.incorrect_answers">
-          <span class="tag is-dark" [innerHTML]="answer"></span>
-        </ng-container>
-      </div>
-    </div>
-
-    <div class="mt-1" *ngIf="formQuestion.value.type+''==='boolean'">
-      <span>Correct Answers</span>
-      <div class="has-text-centered">
-        <button class="button mr-2"
-          [class.is-info]="formQuestion.value.correct_answer.length && formQuestion.value.correct_answer[0]==='True'">
-          TRUE
-        </button>
-        <button class="button"
-          [class.is-info]="formQuestion.value.correct_answer.length && formQuestion.value.correct_answer[0]==='False'">
-          FALSE
-        </button>
-      </div>
-    </div>
-
     <hr />
+    <div class="mt-1 has-text-centered" *ngIf="quizNotSubmitted$|async">
+      <button class="button is-primary" [disabled]="formQuestion.invalid" (click)="Save()">Save</button>
+    </div>
+
   </form>
 </div>

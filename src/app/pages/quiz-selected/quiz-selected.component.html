@@ -2,13 +2,27 @@
   <h1 class="title">Questions</h1>
   <div class="actions">
     <button class="button" (click)="GoBack()">Back</button>
+
+    <ng-container *ngIf="quizNotSubmitted$|async">
+      <button class="button is-primary" [disabled]="quizBlockIncomplete$|async" (click)="SaveQuiz()">Save Quiz</button>
+    </ng-container>
+
   </div>
-  <div *ngIf="quizBlock$|async as quizBlock" class="questions">
-    <app-question [questionBlock]="quizBlock.quizBlock!.question1" [questionNumber]="1"></app-question>
-    <app-question [questionBlock]="quizBlock.quizBlock!.question2" [questionNumber]="2"></app-question>
-    <app-question [questionBlock]="quizBlock.quizBlock!.question3" [questionNumber]="3"></app-question>
-    <app-question [questionBlock]="quizBlock.quizBlock!.question4" [questionNumber]="4"></app-question>
-    <app-question [questionBlock]="quizBlock.quizBlock!.question5" [questionNumber]="5"></app-question>
-  </div>
+  <ng-container *ngIf="quizCorrectAnwser$|async as counter">
+    <div *ngIf="counter>0" class="scored-point" [class.has-background-danger]="counter>0 && counter < 3"
+      [class.has-background-warning]="counter>2&& counter<5" [class.has-background-success]="counter>4">
+      You Scored {{counter-1}} out of 5
+    </div>
+  </ng-container>
+  <ng-container *ngIf="quizBlock$|async as quizBlockData">
+    <div class="questions" *ngIf="quizBlockData.quizBlock">
+      <app-question [questionBlock]="quizBlockData.quizBlock!.question1" [questionNumber]="1"></app-question>
+      <app-question [questionBlock]="quizBlockData.quizBlock!.question2" [questionNumber]="2"></app-question>
+      <app-question [questionBlock]="quizBlockData.quizBlock!.question3" [questionNumber]="3"></app-question>
+      <app-question [questionBlock]="quizBlockData.quizBlock!.question4" [questionNumber]="4"></app-question>
+      <app-question [questionBlock]="quizBlockData.quizBlock!.question5" [questionNumber]="5"></app-question>
+    </div>
+  </ng-container>
+
 
 </div>

@@ -55,6 +55,7 @@ export class QuizService {
     const paramType = `${type ? `&type=${type}` : ''}`;
     const paramQuantity = `amount=${quantity}`;
 
+    this.store.dispatch(Actions.LoadingOn());
     return this.http
       .get<ResponseTrivial>(
         `https://opentdb.com/api.php?${paramQuantity}${paramCategory}${paramDifficulty}${paramType}`
@@ -70,6 +71,10 @@ export class QuizService {
         tap({
           next: data => {
             this.createQuiz(data);
+            this.store.dispatch(Actions.LoadingOff());
+          },
+          error: () => {
+            this.store.dispatch(Actions.LoadingOff());
           },
         })
       );

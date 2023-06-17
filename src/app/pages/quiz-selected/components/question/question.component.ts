@@ -14,7 +14,7 @@ import { QuizBlockService } from '@pages/quiz-selected/services/quiz-block.servi
   styleUrls: ['./question.component.scss'],
 })
 export class QuestionComponent {
-  isOpen = false;
+  isOpen = true;
   @Input() questionBlock!: QuestionBlock;
   @Input() questionNumber!: number;
 
@@ -22,8 +22,12 @@ export class QuestionComponent {
   OpenClose(): void {
     this.isOpen = !this.isOpen;
   }
-  ChangeQuestion(question: Question): void {
-    this.quizBlockService.updateQuestion(question, this.questionNumber);
+  ChangeQuestion(answer: string): void {
+    this.quizBlockService.updateQuestion(
+      this.questionBlock.question,
+      this.questionNumber,
+      answer
+    );
     this.isOpen = false;
   }
 }

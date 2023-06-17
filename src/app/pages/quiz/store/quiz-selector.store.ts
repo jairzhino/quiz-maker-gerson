@@ -23,26 +23,37 @@ export const SelectQuiz = (id: number) =>
     }
     const quizBlock: QuizBlock = {
       id: quiz.id,
+      submitted: false,
       question1: {
-        isDirty: false,
+        isDirty: true,
+        answer: '',
         question: quiz.questions[0],
       },
       question2: {
-        isDirty: false,
+        isDirty: true,
+        answer: '',
         question: quiz.questions[1],
       },
       question3: {
-        isDirty: false,
+        isDirty: true,
+        answer: '',
         question: quiz.questions[2],
       },
       question4: {
-        isDirty: false,
+        isDirty: true,
+        answer: '',
         question: quiz.questions[3],
       },
       question5: {
-        isDirty: false,
+        isDirty: true,
+        answer: '',
         question: quiz.questions[4],
       },
     };
     return quizBlock;
   });
+
+export const SelectLoading = createSelector(
+  SelectAppQuiz,
+  state => state.loading
+);

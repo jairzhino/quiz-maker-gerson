@@ -46,4 +46,5 @@
   <div class="actions mt-2">
     <button class="button is-fullwidth is-primary" (click)="GenerateQuiz()">Generate Quiz</button>
   </div>
+  <app-loading *ngIf="loading$|async"></app-loading>
 </form>
