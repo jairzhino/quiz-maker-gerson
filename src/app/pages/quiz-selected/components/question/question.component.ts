@@ -25,6 +25,5 @@ export class QuestionComponent {
   ChangeQuestion(question: Question): void {
     this.quizBlockService.updateQuestion(question, this.questionNumber);
     this.isOpen = false;
-    console.log('question', this.questionBlock);
   }
 }

@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Question } from '@pages/quiz/models/question.model';
 import { Quiz } from '../models/quiz.model';
+import { TriviaCategory } from '../models/trivia-categories.model';
 
 export const SetQuestions = createAction(
   '[Set-Questions]',
@@ -20,4 +21,9 @@ export const CreateQuiz = createAction(
 export const RemoveQuiz = createAction(
   '[Remove-Quiz]',
   props<{ id: number }>()
+);
+
+export const AddCategories = createAction(
+  '[Add-Categories]',
+  props<{ categories: TriviaCategory[] }>()
 );

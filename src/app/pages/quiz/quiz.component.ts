@@ -22,14 +22,6 @@ export class QuizComponent {
     private readonly quizService: QuizService
   ) {}
 
-  AddQuiz() {
-    const quiz: Quiz = {
-      id: 0,
-      questions: [],
-    };
-    this.quizService.createQuiz(quiz);
-  }
-
   RemoveQuiz(id: number): void {
     this.quizService.removeQuiz(id);
   }

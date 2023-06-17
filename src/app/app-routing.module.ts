@@ -31,6 +31,14 @@ const routes: Routes = [
       ),
     title: 'Quiz',
   },
+  {
+    path: 'create-quiz',
+    loadComponent: () =>
+      import('@pages/create-quiz/create-quiz.component').then(
+        component => component.CreateQuizComponent
+      ),
+    title: 'Create-Quiz',
+  },
 ];
 
 @NgModule({

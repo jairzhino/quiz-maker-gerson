@@ -1,0 +1,49 @@
+<form class="root-create-quiz" [formGroup]="formQuiz">
+  <div class="has-text-centered">
+    <span class="title">Generation Quiz based on Trivia API</span>
+  </div>
+  <div class="question">
+    <div class="panel my-2">
+      <div class="panel-heading">
+        <label for="category" class="ml-2">Category</label>
+        <div class="select is-rounded">
+          <select formControlName="category" name="catogory" class="control-select">
+            <option [value]="-1">Any</option>
+            <option *ngFor="let category of categories$|async" [value]="category.id">
+              {{category.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="panel my-2">
+      <div class="panel-heading">
+        <label for="difficult" class="ml-2">Difficulty</label>
+        <div class="select is-rounded">
+          <select formControlName="difficulty" name="difficult" class="control-select">
+            <option [value]="-1">Any</option>
+            <option *ngFor="let difficultName of difficultList; let i=index" [value]="i">
+              {{difficultName}}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="panel my-2">
+      <div class="panel-heading">
+        <label for="typeQuiz" class="ml-2">Type</label>
+        <div class="select is-rounded">
+          <select formControlName="type" name="typeQuiz" class="control-select">
+            <option [value]="-1">Any</option>
+            <option *ngFor="let type of types; let i=index" [value]="i">
+              {{type}}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="actions mt-2">
+    <button class="button is-fullwidth is-primary" (click)="GenerateQuiz()">Generate Quiz</button>
+  </div>
+</form>

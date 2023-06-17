@@ -5,12 +5,14 @@ import * as Actions from './quiz-action.store';
 export const INITIAL_STATE: AppQuiz = {
   quizzes: [],
   idCounter: 1,
+  categories: [],
 };
 
 export const QuizReducer = createReducer(
   INITIAL_STATE,
   on(Actions.CreateQuiz, (state, { quiz }) => {
     return {
+      ...state,
       quizzes: [...state.quizzes, { ...quiz, id: state.idCounter }],
       idCounter: state.idCounter + 1,
     };
@@ -38,5 +40,9 @@ export const QuizReducer = createReducer(
   on(Actions.RemoveQuiz, (state, { id }) => {
     const quizzes = state.quizzes.filter(quiz => quiz.id !== id);
     return { ...state, quizzes };
-  })
+  }),
+  on(Actions.AddCategories, (state, { categories }) => ({
+    ...state,
+    categories,
+  }))
 );

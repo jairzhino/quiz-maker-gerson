@@ -21,7 +21,7 @@ import { Quiz } from '@pages/quiz/models/quiz.model';
 })
 export class QuizSelectedComponent implements OnInit, OnDestroy {
   id = 0;
-  quiz$!: Observable<QuizBlock>;
+  quiz$!: Observable<QuizBlock | null>;
   quizBlock$ = this.store.select(QuizBlockSelector.SelectQuizBlock);
   private quizBlock!: QuizBlock;
   quizBlockIncomplete$ = this.store.select(
@@ -53,7 +53,9 @@ export class QuizSelectedComponent implements OnInit, OnDestroy {
     this.quiz$ = this.store.select(QuizSelector.SelectQuiz(this.id));
     this.quizSubscription = this.quiz$.subscribe({
       next: quizBlock => {
-        this.quizBlockService.updateQuiz(quizBlock);
+        if (quizBlock) {
+          this.quizBlockService.updateQuiz(quizBlock);
+        }
       },
     });
     this.quizBlockSubscription = this.quizBlock$.subscribe({

@@ -11,17 +11,14 @@ import { Question } from '@pages/quiz/models/question.model';
 import { Category } from '@pages/quiz/enums/category.enum';
 import { Difficulty } from '@pages/quiz/enums/difficulty.enum';
 import { TypeQuiz } from '@pages/quiz/enums/type.enum';
-import { AnswerModalComponent } from '../answer-modal/answer-modal.component';
+import { AppState } from '@pages/quiz/models/AppState.model';
+import { Store } from '@ngrx/store';
+import * as ActionsQuiz from '@pages/quiz/store/quiz-selector.store';
 
 @Component({
   selector: 'app-question-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AnswerModalComponent,
-  ],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './question-form.component.html',
   styleUrls: ['./question-form.component.scss'],
 })
@@ -50,12 +47,14 @@ export class QuestionFormComponent implements OnInit {
     ),
   });
 
+  categories$ = this.store.select(ActionsQuiz.SelectCategories);
+
   categories: string[] = [];
   difficultList: string[] = [];
   types: string[] = [];
-  isOpenCorrectAnswer = false;
-  isOpenIncorrectAnswer = false;
   typeQuiz = TypeQuiz;
+
+  constructor(private readonly store: Store<AppState>) {}
 
   ngOnInit(): void {
     const categoriesNames = Object.keys(Category);
@@ -65,6 +64,7 @@ export class QuestionFormComponent implements OnInit {
     this.difficultList = difficultNames.slice(difficultNames.length / 2);
     this.types = typesNames.slice(typesNames.length / 2);
     this.LoadPage();
+    console.log(this.question);
   }
 
   LoadPage(): void {
@@ -76,17 +76,23 @@ export class QuestionFormComponent implements OnInit {
     this.formQuestion.controls['incorrect_answers'].setValue(
       this.question.incorrect_answers
     );
-    if (this.question.correct_answer.length) {
-      this.formQuestion.controls['correct_answer'].setValue(
-        this.question.correct_answer.split(' ')
-      );
-    }
+    this.formQuestion.controls['correct_answer'].setValue([
+      this.question.correct_answer,
+    ]);
+
+    this.formQuestion.controls['category'].disable();
+    this.formQuestion.controls['type'].disable();
+    this.formQuestion.controls['difficulty'].disable();
+    this.formQuestion.controls['question'].disable();
+
+    this.formQuestion.controls['incorrect_answers'].disable();
+    this.formQuestion.controls['correct_answer'].disable();
   }
 
   Save(): void {
     const categoryParsed = parseInt(this.formQuestion.value.category + '');
-    const difficultyParsed = parseInt(this.formQuestion.value.difficulty + '');
-    const typeParsed = parseInt(this.formQuestion.value.type + '');
+    const difficultyParsed = this.formQuestion.value.difficulty + '';
+    const typeParsed = this.formQuestion.value.type + '';
     const payload: Question = {
       category: categoryParsed,
       difficulty: difficultyParsed,
@@ -96,63 +102,5 @@ export class QuestionFormComponent implements OnInit {
       correct_answer: this.formQuestion.value.correct_answer.join(' '),
     };
     this.changeQuestion.emit(payload);
-  }
-
-  AddAnswer(text: string | undefined | null): void {
-    if (!text) {
-      this.isOpenCorrectAnswer = false;
-      this.isOpenIncorrectAnswer = false;
-      return;
-    }
-    if (this.isOpenCorrectAnswer) {
-      const values: string[] = this.formQuestion.value.correct_answer;
-      this.formQuestion.controls['correct_answer'].setValue([...values, text]);
-      this.isOpenCorrectAnswer = false;
-    }
-    if (this.isOpenIncorrectAnswer) {
-      const values: string[] = this.formQuestion.value.incorrect_answers;
-      this.formQuestion.controls['incorrect_answers'].setValue([
-        ...values,
-        text,
-      ]);
-      this.isOpenIncorrectAnswer = false;
-    }
-  }
-
-  OpenCorrectModal(): void {
-    this.isOpenCorrectAnswer = true;
-  }
-
-  OpenIncorrectModal(): void {
-    this.isOpenIncorrectAnswer = true;
-  }
-
-  ChangeSelecte(): void {
-    this.formQuestion.controls['correct_answer'].setValue([]);
-    this.formQuestion.controls['incorrect_answers'].setValue([]);
-  }
-
-  CorrectBooleanChoised(isTrue: boolean): void {
-    if (isTrue) {
-      this.formQuestion.controls['correct_answer'].setValue(['TRUE']);
-      this.formQuestion.controls['incorrect_answers'].setValue(['FALSE']);
-    } else {
-      this.formQuestion.controls['correct_answer'].setValue(['FALSE']);
-      this.formQuestion.controls['incorrect_answers'].setValue(['TRUE']);
-    }
-  }
-
-  RemoveCorrectAnswer(text: string): void {
-    const values: string[] = this.formQuestion.value.correct_answer.filter(
-      (value: string) => value !== text
-    );
-    this.formQuestion.controls['correct_answer'].setValue(values);
-  }
-
-  RemoveIncorrectAnswer(text: string): void {
-    const values: string[] = this.formQuestion.value.incorrect_answers.filter(
-      (value: string) => value !== text
-    );
-    this.formQuestion.controls['incorrect_answers'].setValue(values);
   }
 }

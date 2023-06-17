@@ -1,11 +1,7 @@
-import { Category } from '@pages/quiz/enums/category.enum';
-import { TypeQuiz } from '../enums/type.enum';
-import { Difficulty } from '../enums/difficulty.enum';
-
 export interface Question {
-  category: Category;
-  type: TypeQuiz;
-  difficulty: Difficulty;
+  category: number | string;
+  type: string;
+  difficulty: string;
   question: string;
   correct_answer: string;
   incorrect_answers: string[];
